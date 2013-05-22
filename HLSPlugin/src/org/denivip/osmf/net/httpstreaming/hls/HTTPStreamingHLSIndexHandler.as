@@ -139,9 +139,8 @@
 			if(pl_str.localeCompare(_prevPlaylist) == 0)
 				++_matchCounter;
 			
-			if(_matchCounter == MAX_ERRORS){ // if delivered playlist again not changed then error_event (or all what you want)
-				logger.error("Stream is stuck. Playlist on server don't updated!");
-				dispatchEvent(new HTTPStreamingEvent(HTTPStreamingEvent.INDEX_ERROR));
+			if(_matchCounter == MAX_ERRORS){ // if delivered playlist again not changed then... wait (and say to html-page)
+				ExternalInterface.call('playlistStuck');
 			}
 			
 			_prevPlaylist = pl_str;
@@ -222,6 +221,7 @@
 			}
 			
 			if(_segment >= manifest.length){ // if playlist ended, then end =)
+				ExternalInterface.call('translationEnd');
 				return new HTTPStreamRequest(HTTPStreamRequestKind.DONE);
 			}else{ // load new chunk
 				request = new HTTPStreamRequest(HTTPStreamRequestKind.DOWNLOAD, manifest[_segment].url);
