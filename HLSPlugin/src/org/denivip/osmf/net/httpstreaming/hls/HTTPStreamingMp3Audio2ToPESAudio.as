@@ -6,8 +6,6 @@
  
  package org.denivip.osmf.net.httpstreaming.hls
 {
-	import __AS3__.vec.Vector;
-	
 	import org.osmf.logging.Logger;
 	import org.osmf.logging.Log;
 	

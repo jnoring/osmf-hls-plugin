@@ -7,7 +7,6 @@ package org.denivip.osmf.plugins
 	import org.osmf.media.MediaFactoryItemType;
 	import org.osmf.media.MediaResourceBase;
 	import org.osmf.media.PluginInfo;
-	import org.osmf.media.URLResource;
 		
 	public class HLSPluginInfo extends PluginInfo
 	{

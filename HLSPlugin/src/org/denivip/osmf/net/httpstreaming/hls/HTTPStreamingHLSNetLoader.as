@@ -33,18 +33,9 @@
 	import org.osmf.media.URLResource;
 	import org.osmf.metadata.Metadata;
 	import org.osmf.metadata.MetadataNamespaces;
-	import org.osmf.net.DynamicStreamingResource;
 	import org.osmf.net.NetStreamLoadTrait;
-	import org.osmf.net.NetStreamSwitchManagerBase;
-	import org.osmf.net.NetStreamSwitcher;
-	import org.osmf.net.httpstreaming.DefaultHTTPStreamingSwitchManager;
 	import org.osmf.net.httpstreaming.HTTPStreamingNetLoader;
 	import org.osmf.net.httpstreaming.dvr.DVRInfo;
-	import org.osmf.net.metrics.MetricFactory;
-	import org.osmf.net.metrics.MetricRepository;
-	import org.osmf.net.qos.QoSInfoHistory;
-	import org.osmf.net.rules.BufferBandwidthRule;
-	import org.osmf.net.rules.RuleBase;
 	import org.osmf.traits.LoadState;
 	
 	public class HTTPStreamingHLSNetLoader extends HTTPStreamingNetLoader

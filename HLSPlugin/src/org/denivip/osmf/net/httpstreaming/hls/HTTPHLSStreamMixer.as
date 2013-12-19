@@ -239,9 +239,9 @@ package org.denivip.osmf.net.httpstreaming.hls
 		{
 			if (value == null)
 			{
-				throw new ArgumentError(OSMFStrings.getString(OSMFStrings.INVALID_PARAM));
+				throw new ArgumentError(OSMFStrings.getString(OSMFStrings.INVALID_PARAM) + " - video");
 			}
-			
+
 			if (_desiredMediaHandler != value)
 			{
 				CONFIG::LOGGING
