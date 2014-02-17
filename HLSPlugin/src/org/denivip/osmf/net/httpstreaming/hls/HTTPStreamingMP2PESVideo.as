@@ -26,8 +26,8 @@ package org.denivip.osmf.net.httpstreaming.hls
 {
 	import flash.utils.ByteArray;
 	
-	import org.osmf.logging.Logger;
 	import org.osmf.logging.Log;
+	import org.osmf.logging.Logger;
 	import org.osmf.net.httpstreaming.flv.FLVTagVideo;
 
 	internal class HTTPStreamingMP2PESVideo extends HTTPStreamingMP2PESBase
@@ -77,12 +77,12 @@ package org.denivip.osmf.net.httpstreaming.hls
 				// Check PES header length
 				var length:uint = packet.readUnsignedByte();
 				var pts:Number =
-					((packet.readUnsignedByte() & 0x0e) << 29) +
-					((packet.readUnsignedShort() & 0xfffe) << 14) +
-					((packet.readUnsignedShort() & 0xfffe) >> 1);
-		
+					uint((packet.readUnsignedByte() & 0x0e) << 29) +
+					uint((packet.readUnsignedShort() & 0xfffe) << 14) +
+					uint((packet.readUnsignedShort() & 0xfffe) >> 1);
+				
 				length -= 5;
-
+				
 				var timestamp:Number;
 				if(flags == 0x03)
 				{
@@ -101,12 +101,23 @@ package org.denivip.osmf.net.httpstreaming.hls
 					_compositionTime = 0;
 				}
 				
-				if(!_timestampReseted){
+				if(!_timestampReseted) {
 					_offset += timestamp - _prevTimestamp;
 				}
-				_timestamp = _initialTimestamp + _offset;
+
+				if (_isDiscontunity || (!_streamOffsetSet)) {// && _prevTimestamp == 0)) { -- in most cases _prevTimestamp (like any timestamps in stream) can't be 0.
+					/*if(timestamp > 0) {
+						_offset += timestamp;
+					}*/
+					_timestamp = _initialTimestamp;
+					_streamOffsetSet = true;
+				}else{
+					_timestamp = _initialTimestamp + _offset;
+				}
+				
 				_prevTimestamp = timestamp;
 				_timestampReseted = false;
+				_isDiscontunity = false;
 				
 				// Skip other header data.
 				packet.position += length;

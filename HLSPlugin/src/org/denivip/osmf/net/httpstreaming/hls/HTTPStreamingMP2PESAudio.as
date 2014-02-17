@@ -92,19 +92,30 @@
 				var length:uint = packet.readUnsignedByte();
 
 				var pts:Number =
-					((packet.readUnsignedByte() & 0x0e) << 29) +
-					((packet.readUnsignedShort() & 0xfffe) << 14) +
-					((packet.readUnsignedShort() & 0xfffe) >> 1);
+					uint((packet.readUnsignedByte() & 0x0e) << 29) +
+					uint((packet.readUnsignedShort() & 0xfffe) << 14) +
+					uint((packet.readUnsignedShort() & 0xfffe) >> 1);
 
 				var timestamp:Number = Math.round(pts/90);
 				_haveNewTimestamp = true;
 				
-				if(!_timestampReseted){
+				if(!_timestampReseted) {
 					_offset += timestamp - _prevTimestamp;
 				}
-				_timestamp = _initialTimestamp + _offset;
+				
+				if (_isDiscontunity || (!_streamOffsetSet)) {// && _prevTimestamp == 0)) {
+					/*if(timestamp > 0) {
+						_offset += timestamp;
+					}*/
+					_timestamp = _initialTimestamp;
+					_streamOffsetSet = true;
+				}else{
+					_timestamp = _initialTimestamp + _offset;
+				}
+				
 				_prevTimestamp = timestamp;
 				_timestampReseted = false;
+				_isDiscontunity = false;
 				
 				length -= 5;
 				// no comp time for audio
